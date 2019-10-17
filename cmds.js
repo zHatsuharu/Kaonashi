@@ -255,4 +255,8 @@ module.exports = async (Discord, client, message) => {
 
 
     };
+    if (cmd == prefix + "test") {
+        embed.setDescription("Message de test.");
+        post(embed);
+    };
 };
