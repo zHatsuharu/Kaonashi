@@ -1,0 +1,2 @@
+# Kaonashi
+Kaonashi discord bot
