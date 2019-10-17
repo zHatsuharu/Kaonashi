@@ -4,6 +4,7 @@
   "description": "Kaonashi-bot est le bot privé du serveur Hyggdrasil (Discord)",
   "main": "bot.js",
   "scripts": {
+    "script": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "zHatsuharu",
