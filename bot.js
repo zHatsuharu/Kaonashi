@@ -33,4 +33,4 @@ client.on("ready", () => {
     console.log("Bot on.")
 });
 
-client.login("NjIxMDQ5Mjc1Mjc0NzU2MTE3.Xai6Tg.cfhb2Gb410JxnbiWpK5Pc41uQ2g");
+client.login("process.env.BOT_TOKEN");
