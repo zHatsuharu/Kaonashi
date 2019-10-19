@@ -256,7 +256,7 @@ module.exports = async (Discord, client, message) => {
 
     };
     
-        if (cmd == prefix + "sexemachine") {
+    if (cmd == prefix + "sexemachine") {
         if (!args[0]) {
             embed.setDescription("Il manque un argument : ``§sexemachine <argument>``");
             return post(embed);
@@ -369,7 +369,7 @@ module.exports = async (Discord, client, message) => {
                 "https://cdn.discordapp.com/attachments/635205251187867648/635214469512953872/294916132097211.png",
                 "https://cdn.discordapp.com/attachments/635205251187867648/635214676543930388/b58d96f773e74d676fd012b1cb12ac29.png"
               ];
-              let img = phrase[Math.floor(Math.random() * phrase.length)];
+              let img = ahegao[Math.floor(Math.random() * ahegao.length)];
             sentence = "";
             embed.setImage(img);
         };
