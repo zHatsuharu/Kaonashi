@@ -18,6 +18,10 @@ module.exports = async (Discord, client, message) => {
     function post(text) {
         message.channel.send(text);
     };
+    
+    function RandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
 
     if (cmd == prefix + "avatar") {
         embed.setImage(sender.displayAvatarURL);
