@@ -256,4 +256,126 @@ module.exports = async (Discord, client, message) => {
 
     };
     
+        if (cmd == prefix + "sexemachine") {
+        if (!args[0]) {
+            embed.setDescription("Il manque un argument : ``§sexemachine <argument>``");
+            return post(embed);
+        };
+        let love = RandomInt(0, 100);
+        let user = message.mentions.users.first();
+        let object = "";
+        let sentence = "";
+
+        if (args[0] == undefined || args[0] != user) {
+            object = args.join(" ");
+        } else {
+            object = user.username;
+        };
+
+        if  (love < 5) {
+            sentence = "Même avec une protection, n'insère rien dedans.";
+        };
+        if (love >= 5 && love < 10) {
+            sentence = "Alors franchement, à part chopper des MST je vois pas.";
+        };
+        if (love >= 10 && love < 15) {
+            sentence = "Oula, qu'est-ce que tu vas faire malheureux.";
+        };
+        if (love >= 15 && love < 20) {
+            sentence = "Bon ok, je vois que tu t'en fous, mais bon, je vais te donner un conseil... Fais gaffe.";
+        };
+        if (love >= 20 && love < 25) {
+            sentence = "Vas y, protège toi, protège toi bien même."
+        };
+        if (love >= 25 && love < 30) {
+            sentence = "Tu peux y aller mais fais pas de gosses avec. Je ne veux surtout pas voir leurs gueules."
+        };
+        if (love >= 30 && love < 35) {
+            sentence = "Tu as fait des efforts, mais pas assez..."
+        };
+        if (love >= 35 && love < 40) {
+            sentence = "Écoute, tu t'approches du potable, mais c'est pas clair comme de l'eau de roche (T'as capté ;) )."
+        };
+        if (love >= 40 && love < 45) {
+            sentence = "Encore un peu d'acharnement et c'est bon.";
+        };
+        if (love >= 45 && love < 50) {
+            sentence = "Tu pourras bientôt y aller sans protections.";
+        };
+        if (love >= 50 && love < 55) {
+            sentence = "Bien jouer sans \"armure\".";
+        };
+        if (love >= 55 && love < 60) {
+            sentence = "Alors tu adores ?";
+        };
+        if (love >= 60 && love < 65) {
+            sentence = "Hmm you touch my tralala.";
+        };
+        if (love >= 65 && love < 70) {
+            sentence = "Bon je vois que tu te débrouille sans moi.";
+        };
+        if (love >= 70 && love < 75) {
+            sentence = "Au putain, c'est quoi ce truc tellement SEXE ?!";
+        };
+        if (love >= 75 && love < 80) {
+            sentence = "Rentre sans hésiter.";
+        };
+        if (love >= 80 && love < 85) {
+            sentence = "Plonge même dedans tellement que c'est bien.";
+        };
+        if (love >= 85 && love < 90) {
+            sentence = "Salut salut, Oh oups pardon c'est très hot ici.";
+        };
+        if (love >= 90 && love < 95) {
+            sentence = "En fait, fais le kamasutra.";
+        };
+        if (love >= 95 && love < 100) {
+            sentence = "Plonge, nage, mange, bois, lèche tout de cette chose.";
+        };
+        if (love >= 100) {
+            var ahegao = [
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214033322246144/296268007073201.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214032412082177/283385900031201.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214044764307477/avatars-000307252135-gkulsa-t500x500.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214051139649546/foto_244717.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214055124238346/hqdefault.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214059930779649/m8KBJAIs_400x400.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214064724738079/old_did_kurwo9221968487.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214069460238360/original_1.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214075600699413/original.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214079841140757/superthumb.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214086422003746/unknown_10.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214091350179851/unnamed_1.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214097872584745/2c0.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214101324365846/2fba712.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214103987748876/5eea10f2fc372d53f72fec174557cf9d.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214107888320512/8ccf13fe001d0b25ae9aa0540f318edd.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214111885623306/91b0949c1ec68aebf93d7b219bdb07ed.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214115027288087/256fx256f.jfif",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214120609775617/2196_ahegao.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214122497081344/4855_aqua_ahegao.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214126473281536/3174437c26ded18165af7e687236b91a.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214128453255208/57952108_134237447725352_8148113747382657492_n.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214132697628742/67974455_1606819619455381_4051605962153263104_n.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214135226925066/1506326659_preview_aoNP1x0_700b.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214139568029725/1506326659_preview_f2223d5805f727d8326c0e5da5245f91.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214141769908227/1506326659_preview_new-ahegao-face-drawing-meme-40-best-ahegao-images-on-pinterest.jpg",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214149307203614/1521312748_Space_Ahegao_1.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214150552780820/1521312863_Space_Ahegao_10.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214163521830934/1521312863_Space_Ahegao_12.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214173252485180/282929576021211.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214353699962922/3119610EF57879D9E5D5F8FBB336D9C16EA00B0C.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214386419466270/14603F8AE10EF9940EB5A790ECE88746A2CBA20F.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214469512953872/294916132097211.png",
+                "https://cdn.discordapp.com/attachments/635205251187867648/635214676543930388/b58d96f773e74d676fd012b1cb12ac29.png"
+              ];
+              let img = phrase[Math.floor(Math.random() * phrase.length)];
+            sentence = "";
+            embed.setImage(img);
+        };
+
+        embed.setDescription(`La Sexe Machine à mesurer le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`);
+        post(embed);
+    };
+    
 };
