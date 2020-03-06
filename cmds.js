@@ -42,7 +42,7 @@ module.exports = async (Discord, client, message) => {
             return post(embed);
         };
         let user = message.mentions.users.first();
-        if (args[0] == undefined || args[0] != user) {
+        if (args[0] == undefined || !user) {
             embed.setDescription("L'argument ``<utilisateur>`` est invalide.\n- Vérifier qu'il s'agit d'une personne mentionnée ;\n- La personne ne doit pas être dans le serveur ;\n- La mention doit être après la commande **§mute <utilisateur>**.");
             return post(embed);
         };
@@ -91,7 +91,7 @@ module.exports = async (Discord, client, message) => {
         };
         let user = message.mentions.users.first();
         let mutemember = message.mentions.members.first();
-        if (args[0] == undefined || args[0] != user || !mutemember.roles.find(r => r.name === "muted")) {
+        if (args[0] == undefined || !user || !mutemember.roles.find(r => r.name === "muted")) {
             embed.setDescription("L'argument ``<utilisateur>`` est invalide.\n- Vérifier qu'il s'agit d'une personne mentionnée ;\n- La personne ne doit pas être dans le serveur ;\n- La mention doit être après la commande **§unmute <utilisateur>** ;\n- Vérifier que la personne est mute.");
             return post(embed);
         };
