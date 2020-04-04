@@ -49,4 +49,4 @@ client.on("ready", () => {
     console.log("Bot on.")
 });
 
-client.login("NjIxMDQ5Mjc1Mjc0NzU2MTE3.Xai84Q.sDhHZ2cKlFURLCVXcT7UZByO4Bs");
+client.login(BOT_TOKEN);
