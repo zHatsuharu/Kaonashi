@@ -1,4 +1,4 @@
-module.exports = async (Discord, client, message) => {
+module.exports = async (Discord, client, message, rank, sql) => {
 
     const prefix = "§";
     const sender = message.author;
@@ -18,7 +18,7 @@ module.exports = async (Discord, client, message) => {
     function post(text) {
         message.channel.send(text);
     };
-    
+
     function RandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     };
@@ -42,7 +42,7 @@ module.exports = async (Discord, client, message) => {
             return post(embed);
         };
         let user = message.mentions.users.first();
-        if (args[0] == undefined || !user) {
+        if (args[0] == undefined || args[0] != user) {
             embed.setDescription("L'argument ``<utilisateur>`` est invalide.\n- Vérifier qu'il s'agit d'une personne mentionnée ;\n- La personne ne doit pas être dans le serveur ;\n- La mention doit être après la commande **§mute <utilisateur>**.");
             return post(embed);
         };
@@ -91,7 +91,7 @@ module.exports = async (Discord, client, message) => {
         };
         let user = message.mentions.users.first();
         let mutemember = message.mentions.members.first();
-        if (args[0] == undefined || !user || !mutemember.roles.find(r => r.name === "muted")) {
+        if (args[0] == undefined || args[0] != user || !mutemember.roles.find(r => r.name === "muted")) {
             embed.setDescription("L'argument ``<utilisateur>`` est invalide.\n- Vérifier qu'il s'agit d'une personne mentionnée ;\n- La personne ne doit pas être dans le serveur ;\n- La mention doit être après la commande **§unmute <utilisateur>** ;\n- Vérifier que la personne est mute.");
             return post(embed);
         };
@@ -101,16 +101,8 @@ module.exports = async (Discord, client, message) => {
         post(embed);
     };
 
-    if (cmd == prefix + "leveltest") {
-        let userdata = JSON.parse(fs.readFileSync("./data/rank.json", "utf8"));
-        let udata = userdata[sender.id];
-        embed.setDescription(`\\▪ Level : **${udata.level}**\n\\▪ XP : **${udata.xp}/${udata.next}**\n\\▪ XP total : **${udata.totalxp}**`);
-        post(embed);
-    };
-
     if (cmd == prefix + "level") {
-        let userdata = JSON.parse(fs.readFileSync("./data/rank.json", "utf8"));
-        let udata = userdata[sender.id];
+
 
         let color = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
 
@@ -118,7 +110,7 @@ module.exports = async (Discord, client, message) => {
         const ctx = canvas.getContext("2d");
 
         //First - Drawing bakcground + cache
-        let background = await Canvas.loadImage("./Images rank/backgrounds/background" + udata.back + ".png");
+        let background = await Canvas.loadImage("./Images rank/backgrounds/background" + rank.back + ".png");
         let cache = await Canvas.loadImage("./Images rank/cache.png");
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         ctx.drawImage(cache, 0, 0, canvas.width, canvas.height);
@@ -128,7 +120,7 @@ module.exports = async (Discord, client, message) => {
         const avatar = await Canvas.loadImage(buffer);
         ctx.drawImage(avatar, 25, 45, 195, 195);
 
-        let pourcentage = udata.xp*100/udata.next;
+        let pourcentage = rank.exp*100/rank.next;
         let bar = 645 * pourcentage / 100;
 
         ctx.beginPath();
@@ -140,7 +132,7 @@ module.exports = async (Discord, client, message) => {
         ctx.stroke();
 
         //Third - Correction
-        let correction = await Canvas.loadImage("./Images rank/corrections/correction" + udata.back + ".png");
+        let correction = await Canvas.loadImage("./Images rank/corrections/correction" + rank.back + ".png");
         let correcache = await Canvas.loadImage("./Images rank/correcache.png");
         ctx.drawImage(correction, 0, 0, canvas.width, canvas.height);
         ctx.drawImage(correcache, 0, 0, canvas.width, canvas.height);
@@ -168,37 +160,28 @@ module.exports = async (Discord, client, message) => {
 
         ctx.font = "25px DejaVu Sans";
         ctx.fillStyle = "black";
-        ctx.fillText(`${udata.xp}/${udata.next}`, canvas.width/4*3+60, canvas.height/2 + 4);
+        ctx.fillText(`${rank.exp}/${rank.next}`, canvas.width/4*3+60, canvas.height/2 + 4);
 
         ctx.font = "bold 75px DejaVu Sans";
-        ctx.fillText(udata.level, canvas.width/4*3+77.5, canvas.height/2 - 40);
+        ctx.fillText(rank.level, canvas.width/4*3+77.5, canvas.height/2 - 40);
 
-        let rank = 1;
-
-        for (var i in userdata) {
-            if (udata.totalxp < userdata[i].totalxp) {
-                rank += 1;
-            };
-        };
-
-        ctx.fillText(`#${rank}`, canvas.width/2, canvas.height/2 - 40);
+        ctx.fillText(`#${rank.rank}`, canvas.width/2, canvas.height/2 - 40);
 
         const attachment = new Discord.Attachment(canvas.toBuffer(), `Carte de ${sender.username}.jpg`);
         post(attachment);
     };
 
     if (cmd == prefix + "background") {
-        let userdata = JSON.parse(fs.readFileSync("./data/rank.json", "utf8"));
-        let udata = userdata[sender.id];
 
         if (!args[0] || isNaN(args[0])) {
 
-        } else if (args[0] == udata.back) {
+        } else if (args[0] == rank.back) {
             embed.setDescription("Tu possède déjà ce background.");
             return post(embed);
         } else {
             if (fs.existsSync(`./Images rank/backgrounds/background${args[0]}.png`)) {
-                udata.back = args[0];
+                rank.back = args[0];
+                client.setRank.run(rank);
                 const canvas = Canvas.createCanvas(937, 286);
                 const ctx = canvas.getContext('2d');
 
@@ -207,7 +190,6 @@ module.exports = async (Discord, client, message) => {
 
                 const attachment = new Discord.Attachment(canvas.toBuffer(), `background${args[0]}.jpg`);
                 message.channel.send("Tu as modifié ton background", attachment);
-                fs.writeFileSync("./data/rank.json", JSON.stringify(userdata));
             } else {
                 embed.setDescription("Le background demandé n'existe pas.");
                 post(embed);
@@ -216,33 +198,13 @@ module.exports = async (Discord, client, message) => {
     };
 
     if (cmd == prefix + "rank") {
-        let userdata = JSON.parse(fs.readFileSync("./data/rank.json", "utf8"));
-        let data = [""];
-        let user = "";
-        let debug = 0;
-        let limiter = 0;
-        let ref = 0;
+        const top10 = sql.prepare("SELECT * FROM rank WHERE guild = ? ORDER BY exptotal DESC LIMIT 10;").all(message.guild.id);
 
-        while (limiter != 3) {
-            for (var i in userdata) {
-                if (limiter <= 0) {
-                    if (userdata[i].totalxp > debug) {
-                        user = userdata[i];
-                        debug = userdata[i].totalxp;
-                    };
-                } else {
-                    if (userdata[i].totalxp > debug && userdata[i].totalxp < ref) {
-                        user = userdata[i];
-                        debug = userdata[i].totalxp;
-                    };
-                };
-            };
-            debug = 0;
-            ref = user.totalxp;
-            data.push(`${limiter+1} - ${user.name} niveau ${user.level} avec ${user.totalxp}`);
-            limiter += 1;
+        embed.setTitle("Rank")
+        .setDescription("Top 10 des personnes sur le serveur.");
+        for (const data of top10) {
+            embed.addField("**"+data.user+"**", `Level : **${data.level}** avec **${data.exptotal}** exp.`);
         };
-        embed.setDescription(data);
         post(embed);
     };
 
@@ -257,9 +219,8 @@ module.exports = async (Discord, client, message) => {
         annonceChannel.send(args.join(" "));
         post(embed);
 
-
     };
-    
+
     if (cmd == prefix + "sexemachine") {
         if (!args[0]) {
             embed.setDescription("Il manque un argument : ``§sexemachine <argument>``");
@@ -373,13 +334,37 @@ module.exports = async (Discord, client, message) => {
                 "https://cdn.discordapp.com/attachments/635205251187867648/635214469512953872/294916132097211.png",
                 "https://cdn.discordapp.com/attachments/635205251187867648/635214676543930388/b58d96f773e74d676fd012b1cb12ac29.png"
               ];
-              let img = ahegao[Math.floor(Math.random() * ahegao.length)];
+              let img = phrase[Math.floor(Math.random() * phrase.length)];
             sentence = "";
             embed.setImage(img);
         };
 
-        embed.setDescription(`La Sexe Machine à mesurer le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`);
+        const canvas = Canvas.createCanvas(450, 450);
+        const ctx = canvas.getContext("2d");
+        var posX = canvas.width / 2,
+            posY = canvas.height / 2;
+
+        ctx.lineCap = 'round';
+        arcMove();
+        function arcMove(){
+          var deegres = (love*360)/100;
+            ctx.clearRect( 0, 0, canvas.width, canvas.height );
+
+            ctx.beginPath();
+            ctx.arc( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + 360) );
+            ctx.strokeStyle = '#b1b1b1';
+            ctx.lineWidth = '10';
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#3949AB';
+            ctx.lineWidth = '10';
+            ctx.arc( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + deegres) );
+            ctx.stroke();
+        }
+
+        embed.setDescription(`La Sexe Machine à mesurer le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`)
+        .setThumbnail(canvas.toDataURL());
         post(embed);
     };
-    
 };

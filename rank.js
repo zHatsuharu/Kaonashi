@@ -1,7 +1,4 @@
-module.exports = async (Discord, client, message) => {
-
-    //Additionnal modules
-    const fs = require("fs");
+module.exports = async (Discord, client, message, rank, sql) => {
 
     const sender = message.author;
     const embed = new Discord.RichEmbed()
@@ -13,36 +10,52 @@ module.exports = async (Discord, client, message) => {
         message.channel.send(text);
     };
 
-    function write(path, let) {
-        fs.writeFileSync(path, JSON.stringify(let));
+    if (!rank) {
+        rank = {
+            id: sender.id,
+            user: sender.username,
+            guild: message.guild.id,
+            exp: 0,
+            level: 0,
+            next: 100,
+            exptotal: 0,
+            rank: 0,
+            back: 1
+        };
+        client.setRank.run(rank);
+    } else {
+        if (rank.user != sender.username) {
+            sql.prepare(`UPDATE rank SET user = "${sender.username}" WHERE id = "${sender.id}"`).run();
+        };
     };
 
-    let userdata = JSON.parse(fs.readFileSync("./data/rank.json", "utf8"));
-    if (!userdata[sender.id]) userdata[sender.id] = {
-        xp : 0,
-        level: 0,
-        next: 100,
-        totalxp: 0,
-        money: 50,
-        back: 1,
-        name : sender.username
+    const top = sql.prepare(`SELECT * FROM rank WHERE guild = ? ORDER BY exptotal DESC;`).all(message.guild.id);
+
+    var i = 1;
+    for (const data of top) {
+        if (data.id == sender.id) {
+            rank.rank = i;
+            client.setRank.run(rank);
+        } else {
+            i += 1;
+        };
     };
-    let udata = userdata[sender.id];
-    if (udata.name != sender.username) { udata.name = sender.usename };
+
     function RandomInt(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     };
+
     var x = RandomInt(1, 15);
-    udata.xp += x;
-    udata.totalxp += x;
-    if (udata.xp >= udata.next) {
-        udata.xp -= udata.next;
-        udata.level += 1;
-        udata.next += 20*udata.level;
-        embed.setDescription(`**${sender.username}** tu viens de passer au niveau **${udata.level}**`);
+    rank.exp += x;
+    rank.exptotal += x;
+    client.setRank.run(rank);
+    if (rank.exp >= rank.next) {
+        rank.exp -= rank.next;
+        rank.level += 1;
+        rank.next += 20*rank.level;
+        client.setRank.run(rank);
+        embed.setDescription(`**${sender.username}** tu viens de passer au niveau **${rank.level}**`);
         post(embed);
     };
-
-    write("./data/rank.json", userdata);
 
 };
