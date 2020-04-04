@@ -49,4 +49,4 @@ client.on("ready", () => {
     console.log("Bot on.")
 });
 
-client.login(BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
