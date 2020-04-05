@@ -55,7 +55,8 @@ module.exports = async (Discord, client, message, rank, sql) => {
         rank.next += 20*rank.level;
         client.setRank.run(rank);
         embed.setDescription(`**${sender.username}** tu viens de passer au niveau **${rank.level}**`);
-        post(embed);
+        const channel = client.chanels.get(696367297505394728);
+        channel.send(embed);
     };
 
 };
