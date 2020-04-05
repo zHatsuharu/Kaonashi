@@ -339,7 +339,7 @@ module.exports = async (Discord, client, message, rank, sql) => {
             embed.setImage(img);
         };
 
-        embed.setDescription(`La Sexe Machine à mesurer le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`);
+        embed.setDescription(`La Sexe Machine a mesuré le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`);
         post(embed);
     };
 };
