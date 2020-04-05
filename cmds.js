@@ -339,32 +339,7 @@ module.exports = async (Discord, client, message, rank, sql) => {
             embed.setImage(img);
         };
 
-        const canvas = Canvas.createCanvas(450, 450);
-        const ctx = canvas.getContext("2d");
-        var posX = canvas.width / 2,
-            posY = canvas.height / 2;
-
-        ctx.lineCap = 'round';
-        arcMove();
-        function arcMove(){
-          var deegres = (love*360)/100;
-            ctx.clearRect( 0, 0, canvas.width, canvas.height );
-
-            ctx.beginPath();
-            ctx.arc( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + 360) );
-            ctx.strokeStyle = '#b1b1b1';
-            ctx.lineWidth = '10';
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.strokeStyle = '#3949AB';
-            ctx.lineWidth = '10';
-            ctx.arc( posX, posY, 70, (Math.PI/180) * 270, (Math.PI/180) * (270 + deegres) );
-            ctx.stroke();
-        }
-
-        embed.setDescription(`La Sexe Machine à mesurer le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`)
-        .setThumbnail(canvas.toDataURL());
+        embed.setDescription(`La Sexe Machine à mesurer le sexe appeal de **${object}**.\nLes résultats montrent qu'il est de **${love}%**.\n${sentence}`);
         post(embed);
     };
 };
